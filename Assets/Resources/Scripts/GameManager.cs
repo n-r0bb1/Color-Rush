@@ -1,18 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class NewBehaviourScript : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static GameManager Instance;
+    public TextMeshProUGUI ScoreText;
 
-    // Update is called once per frame
-    void Update()
+    private int score = 0;
+    public int Score => score;
+    public string correctAnswer;
+
+    void Awake()
+{
+    Instance = this;
+    Debug.Log("GameManager Awake on: " + gameObject.name, gameObject);
+}
+
+    public void CheckAnswer(string gateAnswer)
     {
-        
+        Debug.Log("CheckAnswer called with: " + gateAnswer);
+        Debug.Log("Correct answer is: " + correctAnswer);
+
+        if (gateAnswer == correctAnswer)
+        {
+            score++;
+            Debug.Log("CORRECT! Score: " + score);
+        }
+        else
+        {
+            Debug.Log("WRONG!");
+        }
+
+        if (ScoreText != null)
+            ScoreText.text = "Score = " + score;
+        else
+            Debug.LogError("ScoreText is not assigned in GameManager Inspector!");
+
+        Debug.Log("Calling NextSet...");
+        RoundManager.Instance.NextSet();
     }
 }

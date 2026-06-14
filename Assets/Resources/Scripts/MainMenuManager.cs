@@ -1,18 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class NewBehaviourScript : MonoBehaviour
+public class MainMenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Toggle RGCheckBox;
+    public Toggle BGCheckBox;
+
     void Start()
     {
-        
+        string saved = PlayerPrefs.GetString("PhotoMode", "RG");
+        RGCheckBox.isOn = saved == "RG";
+        BGCheckBox.isOn = saved == "BG";
     }
 
-    // Update is called once per frame
-    void Update()
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene("MainScene");
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+        Debug.Log("Game Exited");
+    }
+
+    public void GoToInfo()
+    {
+        SceneManager.LoadScene("InfoScene");
+    }
+
+    public void OnRGToggle(bool value)
+    {
+        if (value)
+            PlayerPrefs.SetString("PhotoMode", "RG");
+    }
+
+    public void OnBGToggle(bool value)
+    {
+        if (value)
+            PlayerPrefs.SetString("PhotoMode", "BG");
     }
 }

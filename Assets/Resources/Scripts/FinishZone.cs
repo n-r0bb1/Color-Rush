@@ -1,18 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class NewBehaviourScript : MonoBehaviour
+public class FinishZone : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private bool ready = false;
+
     void Start()
     {
-        
+        Invoke(nameof(Activate), 2f);
     }
 
-    // Update is called once per frame
-    void Update()
+    void Activate() => ready = true;
+
+    void OnTriggerEnter(Collider other)
     {
-        
+        if (!ready || !other.CompareTag("Player")) return;
+
+        PlayerPrefs.SetInt("FinalScore", GameManager.Instance.Score);
+        SceneManager.LoadScene("ResultScene");
     }
 }
